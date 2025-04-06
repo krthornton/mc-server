@@ -18,6 +18,11 @@ The script will also install a systemd unit file for managing the server. Once i
 
 If you wish to install a specific version other than the latest, simply provide the Minecraft version number as an argument to the script, e.g., `./install-server.sh 1.21.4`.
 
+The `install-server.sh` script can be run without cloning the repo by downloading the latest file from GitHub directly and piping it to bash:
+```bash
+curl -fsSL https://raw.githubusercontent.com/krthornton/mc-server/refs/heads/master/install-server.sh | bash
+```
+
 ## Backup Installation
 Executing the `install-backups.sh` script will install a simple backup system for the Minecraft server using borgmatic. This system will be comprmised of two repos, one local and one remote, for storing mirrored backups of the Minecraft server.
 
@@ -25,6 +30,11 @@ Upon execution, the script will prompt the user whether they wish to utilize a r
 If the user answers yes, the script will prompt from both the SSH URI to the repo, e.g., `ssh://asdf.repo.borgbase.com/./repo`, and an encryption password for the remote repo.
 The script will then generate a config file, store it in `/etc/borgmatic.d/mc-server.yaml`, and validate it.
 Lastly, the script will initialize a local borg repo for backups (unencrypted).
+
+Similarly to the server install script, the `install-backups.sh` script can be run without cloning the repo by downloading the latest file from GitHub directly and piping it to bash:
+```bash
+curl -fsSL https://raw.githubusercontent.com/krthornton/mc-server/refs/heads/master/install-backups.sh | bash
+```
 
 ## Backup Restoration
 Existing backups can be listed from the local repo by running the following:
