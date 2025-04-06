@@ -31,6 +31,8 @@ If the user answers yes, the script will prompt from both the SSH URI to the rep
 The script will then generate a config file, store it in `/etc/borgmatic.d/mc-server.yaml`, and validate it.
 Lastly, the script will initialize a local borg repo for backups (unencrypted).
 
+It is worth noting that the encryption password is stored usding systemd-creds, so the password will itself be encrypted and therefore not stored in plain-text.
+
 Similarly to the server install script, the `install-backups.sh` script can be run without cloning the repo by downloading the latest file from GitHub directly and piping it to bash:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/krthornton/mc-server/refs/heads/master/install-backups.sh | bash
