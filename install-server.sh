@@ -1,17 +1,9 @@
 #!/usr/bin/env bash
 
 # stop running server (if exists)
-if systemctl list-unit-files mc-server.service 1>/dev/null; then
-	if systemctl is-active --quiet mc-server.service 1>/dev/null; then
-		echo "Stopping active minecraft server..."
-		sudo systemctl stop mc-server.service
-		if [[ -z $? ]]; then
-			echo "Failed to stop minecraft server. Aborting install."
-			exit 1
-		else
-			echo "Minecraft server stopped."
-		fi
-	fi
+if systemctl is-active --quiet mc-server.service 1>/dev/null; then
+	echo -e "The installed Minecraft server is still running. Please manually stop it before installing.\nAborting installation."
+	exit 1
 fi
 
 # check for dependencies
@@ -75,7 +67,7 @@ fi
 # setup directory structure
 echo "Setting up server directory structure..."
 sudo mkdir -p /mc-server/data
-sudo chown -R minecraft:minecraft /mc-server
+sudo chown -R minecraft:minecraft /mc-server/data
 
 # install systemd unit file
 echo "Installing sytemd unit file to /etc/systemd/system/mc-server.service..."
@@ -131,3 +123,4 @@ sudo cp "/tmp/$JAR_NAME" /mc-server/server.jar
 sudo chown minecraft:minecraft /mc-server/server.jar
 
 echo "Minecraft server installation complete."
+echo "Run 'systemctl start mc-server' to start the server."
