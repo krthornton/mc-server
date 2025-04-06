@@ -27,4 +27,12 @@ The script will then generate a config file, store it in `/etc/borgmatic.d/mc-se
 Lastly, the script will initialize a local borg repo for backups (unencrypted).
 
 ## Backup Restoration
+Existing backups can be listed from the local repo by running the following:
+```bash
+sudo borgmatic list --repository /mc-server/backups/local-repo
+```
 
+You can restore from a given backup by running something like the following:
+```bash
+sudo borgmatic restore --repository /mc-server/backups/local-repo --archive data-2025-01-27T15:42:57
+```
