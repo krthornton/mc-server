@@ -67,7 +67,9 @@ fi
 # setup directory structure
 echo "Setting up server directory structure..."
 sudo mkdir -p /mc-server/data
+sudo chmod o+w /mc-server
 sudo chown -R minecraft:minecraft /mc-server/data
+sudo chmod -R 770 /mc-server/data
 
 # install systemd unit file
 echo "Installing sytemd unit file to /etc/systemd/system/mc-server.service..."
@@ -114,13 +116,14 @@ sleep infinity > /mc-server/fifo &
 child=$!
 wait "$child"
 EOF
-sudo chown minecraft:minecraft /mc-server/driver.sh
-sudo chmod u+x /mc-server/driver.sh
+sudo chown root:root /mc-server/driver.sh
+sudo chmod 755 /mc-server/driver.sh
 
 # install server JAR file
 echo "Installing server jar file..."
 sudo cp "/tmp/$JAR_NAME" /mc-server/server.jar
-sudo chown minecraft:minecraft /mc-server/server.jar
+sudo chown root:root /mc-server/server.jar
+sudo chmod 644 /mc-server/server.jar
 
 echo "Minecraft server installation complete."
 echo "Run 'systemctl start mc-server' to start the server."
