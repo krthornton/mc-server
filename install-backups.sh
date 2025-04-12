@@ -9,7 +9,7 @@ fi
 # create directory structure
 sudo mkdir -p /mc-server/backups/local-repo
 sudo chown -R root:root /mc-server/backups
-sudo chmod -R 660 /mc-server/backups
+sudo chmod -R 770 /mc-server/backups
 sudo mkdir -p /etc/borgmatic.d
 
 # determine if remote repo will be used for backup
