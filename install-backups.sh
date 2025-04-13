@@ -71,6 +71,18 @@ if ! sudo borgmatic config validate 1>/dev/null; then
 	exit 1
 fi
 
+# disable systemd borgmatic dependency upon /etc/borgmatic/config.yaml
+OVERRIDE_FILE=/etc/systemd/system/borgmatic.service.d/mc-server.conf
+if ! [[ -z "$OVERRIDE_FILE" ]]; then
+	echo "Disabling non-empty borgmatic config file requirement..."
+	sudo mkdir -p /etc/systemd/system/borgmatic.service.d
+	sudo bash -c "cat > \"$OVERRIDE_FILE\"" << EOF
+[Unit]
+ConditionFileNotEmpty=
+EOF
+	sudo systemctl daemon-reload
+fi
+
 # create local borg repo
 echo "Initializing local borg repo..."
 sudo borgmatic init --repository /mc-server/backups/local-repo --encryption none
