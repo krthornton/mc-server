@@ -82,10 +82,8 @@ After=network-online.target
 [Service]
 User=minecraft
 WorkingDirectory=/mc-server/data
-ExecStart=/mc-server/driver.sh
-TimeoutStopSec=120
-StandardInput=null
-KillMode=mixed
+ExecStart=/usr/bin/java -Xmx6G -jar /mc-server/server.jar nogui --world-container /mc-server/data/worlds
+TimeoutStopSec=60
 SuccessExitStatus=143
 
 [Install]
@@ -93,31 +91,6 @@ WantedBy=multi-user.target
 EOF
 echo "Reloading systemd..."
 sudo systemctl daemon-reload
-
-# install server driver script
-echo "Installing driver script to /mc-server/driver.sh..."
-sudo bash -c "cat > /mc-server/driver.sh" << 'EOF'
-#!/usr/bin/env bash
-
-shutdown() {
-	echo "Issuing shutdown command via stdin..."
-	echo "stop" > /mc-server/fifo
-	wait "$child"
-}
-
-trap shutdown SIGTERM
-
-rm -f /mc-server/fifo
-mkfifo /mc-server/fifo
-sleep infinity > /mc-server/fifo &
-
-/usr/bin/java -Xmx6G -jar /mc-server/server.jar nogui --world-container /mc-server/data/worlds < /mc-server/fifo &
-
-child=$!
-wait "$child"
-EOF
-sudo chown root:root /mc-server/driver.sh
-sudo chmod 755 /mc-server/driver.sh
 
 # install server JAR file
 echo "Installing server jar file..."
