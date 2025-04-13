@@ -23,6 +23,11 @@ The `install-server.sh` script can be run without cloning the repo by downloadin
 curl -fsSL https://raw.githubusercontent.com/krthornton/mc-server/refs/heads/master/install-server.sh | bash
 ```
 
+If you wish to install the latest stable build for a specific version of Minecraft, you can pass in the version number as an argument like so:
+```bash
+curl -fsSL https://raw.githubusercontent.com/krthornton/mc-server/refs/heads/master/install-server.sh | bash -s - 1.21.4
+```
+
 ## Backup Installation
 Executing the `install-backups.sh` script will install a simple backup system for the Minecraft server using borgmatic. This system will be comprmised of two repos, one local and one remote, for storing mirrored backups of the Minecraft server.
 
